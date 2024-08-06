@@ -16,8 +16,11 @@ const boxCenterSelected = "C"
 const boxRightSelected = "R"
 const minesweeperTileA = "t"
 const minesweeperTileB = "T"
-const minesweeperBlank = "b"
+const minesweeperBlankA = "b"
+const minesweeperBlankB = "B"
+const minesweeperBoard = "g"
 const minesweeperOne = "1"
+const flagIcon = "f"
 
 const menuSong = tune`
 500: C4~500 + C5^500 + G5/500,
@@ -190,23 +193,74 @@ DDDDDDDDDDDDDDDD
 DDDDDDDDDDDDDDDD
 DDDDDDDDDDDDDDDD
 DDDDDDDDDDDDDDDD`],
-  [minesweeperBlank, bitmap`
+  [minesweeperBlankA, bitmap`
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888
+8888888888888888`],
+  [minesweeperBlankB, bitmap`
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH`],
+  [minesweeperBoard, bitmap`
 1111111111111111
 1111111111111111
-1122222222222211
-1122222222222211
-1122222222222211
-1122222222222211
-1122222222222211
-1122222222222211
-1122222222222211
-1122222222222211
-1122222222222211
-1122222222222211
-1122222222222211
-1122222222222211
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
 1111111111111111
 1111111111111111`],
+  [flagIcon, bitmap`
+................
+................
+...........3....
+.........333....
+....33333333....
+.....3333333....
+......333333....
+.......33333....
+.........333....
+..........33....
+...........0....
+...........0....
+.......000000...
+......00000000..
+................
+................`],
   [minesweeperOne, bitmap`
 1111111111111111
 1111111111111111
@@ -231,7 +285,24 @@ const levels = [
 .....
 .lcr.
 .lcr.
-.lcr.`
+.lcr.`,
+  map`
+gggggggggggggggggggg
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+ggg................g
+gggggggggggggggggggg`
 ]
 
 var currentSong;
@@ -293,7 +364,8 @@ function initializeLevel(level) {
         addSprite(2, selected + 1, boxCenterSelected)
         addSprite(3, selected + 1, boxRightSelected)
       })
-
+    case 1:
+      setMap(levels[1])
   }
 }
-initializeLevel(0)
+initializeLevel(1)
