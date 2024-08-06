@@ -26,7 +26,8 @@ const minesweeperTileRingB = "P"
 const minesweeperBlankRingA = "k"
 const minesweeperBlankRingB = "K"
 const minesweeperOne = "1"
-const flagIcon = "f"
+const flagIconA = "f"
+const flagIconB = "F"
 
 const menuSong = tune`
 500: C4~500 + C5^500 + G5/500,
@@ -336,23 +337,40 @@ LLLLLLLLLLLLLLLL
 LLLLLLLLLLLLLLLL
 LLLLLLLLLLLLLLLL
 LLLLLLLLLLLLLLLL`],
-  [flagIcon, bitmap`
-................
-................
-...........3....
-.........333....
-....33333333....
-.....3333333....
-......333333....
-.......33333....
-.........333....
-..........33....
-...........0....
-...........0....
-.......000000...
-......00000000..
-................
-................`],
+  [flagIconA, bitmap`
+4444444444444444
+4444444444444444
+4444444444344444
+4444444433344444
+4443333333344444
+4444333333344444
+4444433333344444
+4444443333344444
+4444444433344444
+4444444443344444
+4444444444044444
+4444444444044444
+4444440000004444
+4444400000000444
+4444444444444444
+4444444444444444`],
+  [flagIconB, bitmap`
+DDDDDDDDDDDDDDDD
+DDDDDDDDDDDDDDDD
+DDDDDDDDDD3DDDDD
+DDDDDDDD333DDDDD
+DDD33333333DDDDD
+DDDD3333333DDDDD
+DDDDD333333DDDDD
+DDDDDD33333DDDDD
+DDDDDDDD333DDDDD
+DDDDDDDDD33DDDDD
+DDDDDDDDDD0DDDDD
+DDDDDDDDDD0DDDDD
+DDDDDD000000DDDD
+DDDDD00000000DDD
+DDDDDDDDDDDDDDDD
+DDDDDDDDDDDDDDDD`],
   [minesweeperOne, bitmap`
 1111111111111111
 1111111111111111
@@ -508,8 +526,16 @@ function initializeLevel(level) {
         addSprite(4+selectedPosition.x,1+selectedPosition.y, minesweeperSelectA)
       })
       onInput("i", () => {
-          alert("test")
-          addSprite(4+selectedPosition.x,1+selectedPosition.y, flagIcon)
+        clearTile(4+selectedPosition.x,1+selectedPosition.y)
+        if ((selectedPosition.y+(selectedPosition.x%2))%2 == 0) {
+          addSprite(4+selectedPosition.x,1+selectedPosition.y, minesweeperTileRingA)
+          addSprite(4+selectedPosition.x,1+selectedPosition.y, flagIconA)
+          
+        } else {
+          addSprite(4+selectedPosition.x,1+selectedPosition.y, minesweeperTileRingB)
+          addSprite(4+selectedPosition.x,1+selectedPosition.y, flagIconB)
+        }
+        addSprite(4+selectedPosition.x,1+selectedPosition.y, minesweeperSelectA)
       })
   }
 }
