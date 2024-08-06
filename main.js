@@ -15,8 +15,42 @@ const boxLeftSelected = "L"
 const boxCenterSelected = "C"
 const boxRightSelected = "R"
 
+const menuSong = tune`
+500: C4~500 + C5^500 + G5/500,
+500: F5/500,
+500: E4~500 + G4^500 + E5/500,
+500: D5/500,
+500: F4~500 + A4^500 + E5/500,
+500: F5/500,
+500: G4~500 + B4^500,
+500: G4~500 + B4^500,
+500: C4~500 + C5^500 + G5/500,
+500: F5/500,
+500: E4~500 + G4^500 + E5/500,
+500: D5/500,
+500: F4~500 + A4^500,
+500,
+500: G4~500 + B4^500,
+500: G4~500 + B4^500,
+500: C4~500 + C5^500,
+500,
+500: E4~500 + G4^500 + E5/500,
+500: D5/500,
+500: F4~500 + A4^500 + E5/500,
+500: F5/500,
+500: G4~500 + B4^500 + E5/500,
+500: G4~500 + B4^500 + D5/500,
+500: C4~500 + C5^500,
+500,
+500: E4~500 + G4^500,
+500,
+500: F4~500 + A4^500 + E5/500,
+500: F5/500,
+500: G4~500 + B4^500 + E5/500,
+500: G4~500 + B4^500 + D5/500`
+
 setLegend(
-  [ boxLeft, bitmap`
+  [boxLeft, bitmap`
 ................
 ................
 ..00000000000000
@@ -32,8 +66,8 @@ setLegend(
 ..0.............
 ..00000000000000
 ................
-................` ],
-  [ boxCenter, bitmap`
+................`],
+  [boxCenter, bitmap`
 ................
 ................
 0000000000000000
@@ -50,7 +84,7 @@ setLegend(
 0000000000000000
 ................
 ................`],
-  [ boxRight, bitmap`
+  [boxRight, bitmap`
 ................
 ................
 00000000000000..
@@ -84,7 +118,7 @@ setLegend(
 .5..............
 .555555555555555
 ................`],
-  [boxCenterSelected,bitmap`
+  [boxCenterSelected, bitmap`
 ................
 5555555555555555
 ................
@@ -101,7 +135,7 @@ setLegend(
 ................
 5555555555555555
 ................`],
-  [boxRightSelected,bitmap`
+  [boxRightSelected, bitmap`
 ................
 555555555555555.
 ..............5.
@@ -121,46 +155,73 @@ setLegend(
 )
 
 const levels = [
-   map`
+  map`
 .....
 .lcr.
 .lcr.
 .lcr.`
 ]
 
+var currentSong;
 function initializeLevel(level) {
   clearText()
   switch (level) {
     case 0:
       setMap(levels[0])
-      addText("MINESWEEPER", { 
+      addText("MINESWEEPER", {
         x: 4,
         y: 2,
         color: color`0`
       })
-      addText("PLAY", { 
+      addText("PLAY", {
         x: 8,
         y: 5,
         color: color`0`
       })
-      addText("SETTINGS", { 
+      addText("SETTINGS", {
         x: 6,
         y: 9,
         color: color`0`
       })
-      addText("CREDITS", { 
+      addText("CREDITS", {
         x: 6,
         y: 13,
         color: color`0`
       })
+      var selected = 0
+      const playback = playTune(menuSong, Infinity)
       onInput("w", () => {
-        addSprite(1,1,boxLeftSelected)
-        addSprite(2,1,boxCenterSelected)
-        addSprite(3,1,boxRightSelected)
-        
+        getAll(boxLeftSelected).forEach((selector) =>
+          selector.remove()
+        )
+        getAll(boxCenterSelected).forEach((selector) =>
+          selector.remove()
+        )
+        getAll(boxRightSelected).forEach((selector) =>
+          selector.remove()
+        )
+        selected = Math.max(selected - 1, 0)
+        addSprite(1, selected + 1, boxLeftSelected)
+        addSprite(2, selected + 1, boxCenterSelected)
+        addSprite(3, selected + 1, boxRightSelected)
+
+      })
+      onInput("s", () => {
+        getAll(boxLeftSelected).forEach((selector) =>
+          selector.remove()
+        )
+        getAll(boxCenterSelected).forEach((selector) =>
+          selector.remove()
+        )
+        getAll(boxRightSelected).forEach((selector) =>
+          selector.remove()
+        )
+        selected = Math.min(selected + 1, 2)
+        addSprite(1, selected + 1, boxLeftSelected)
+        addSprite(2, selected + 1, boxCenterSelected)
+        addSprite(3, selected + 1, boxRightSelected)
       })
 
   }
 }
 initializeLevel(0)
-
