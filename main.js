@@ -69,7 +69,9 @@ const menuSong = tune`
 500: F5/500,
 500: G4~500 + B4^500 + E5/500,
 500: G4~500 + B4^500 + D5/500`
-
+const movement = tune`
+500: C4~500,
+15500`
 
 // 0 -> Unopened
 // 1 -> Opened
@@ -420,16 +422,16 @@ DDDDDDDDDDDDDDDD`],
 ................
 ................
 ..111111111111..
-..111111777111..
-..111117777111..
-..111177177111..
-..111771177111..
-..111711177111..
-..111111177111..
-..111111177111..
-..111111177111..
-..111111177111..
-..111111177111..
+..111117711111..
+..111117711111..
+..111117711111..
+..111117711111..
+..111117711111..
+..111117711111..
+..111117711111..
+..111117711111..
+..111117711111..
+..111117711111..
 ..111111111111..
 ................
 ................`],
@@ -454,16 +456,16 @@ DDDDDDDDDDDDDDDD`],
 ................
 ................
 ..111111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..111111111DD1..
-..111111111DD1..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..1DD111111111..
-..1DD111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
+..1CCCCCCCCCC1..
+..1CCCCCCCCCC1..
+..111111111CC1..
+..111111111CC1..
+..1CCCCCCCCCC1..
+..1CCCCCCCCCC1..
+..111111111CC1..
+..111111111CC1..
+..1CCCCCCCCCC1..
+..1CCCCCCCCCC1..
 ..111111111111..
 ................
 ................`],
@@ -471,16 +473,16 @@ DDDDDDDDDDDDDDDD`],
 ................
 ................
 ..111111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..111111111DD1..
-..111111111DD1..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..1DD111111111..
-..1DD111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
+..1HH111111HH1..
+..1HH111111HH1..
+..1HH111111HH1..
+..1HH111111HH1..
+..1HHHHHHHHHH1..
+..1HHHHHHHHHH1..
+..111111111HH1..
+..111111111HH1..
+..111111111HH1..
+..111111111HH1..
 ..111111111111..
 ................
 ................`],
@@ -488,16 +490,16 @@ DDDDDDDDDDDDDDDD`],
 ................
 ................
 ..111111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..111111111DD1..
-..111111111DD1..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..1DD111111111..
-..1DD111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
+..199999999991..
+..199999999991..
+..191111111111..
+..191111111111..
+..199999999991..
+..199999999991..
+..111111111991..
+..111111111991..
+..199999999991..
+..199999999991..
 ..111111111111..
 ................
 ................`],
@@ -505,16 +507,16 @@ DDDDDDDDDDDDDDDD`],
 ................
 ................
 ..111111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..111111111DD1..
-..111111111DD1..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..1DD111111111..
-..1DD111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
+..155555555551..
+..155555555551..
+..155111111111..
+..155111111111..
+..155555555551..
+..155555555551..
+..155111111551..
+..155111111551..
+..155555555551..
+..155555555551..
 ..111111111111..
 ................
 ................`],
@@ -522,16 +524,16 @@ DDDDDDDDDDDDDDDD`],
 ................
 ................
 ..111111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..111111111DD1..
-..111111111DD1..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..1DD111111111..
-..1DD111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
+..188888888881..
+..188888888881..
+..111111111881..
+..111111111881..
+..111111188111..
+..111111188111..
+..111118811111..
+..111118811111..
+..111881111111..
+..111881111111..
 ..111111111111..
 ................
 ................`],
@@ -539,16 +541,16 @@ DDDDDDDDDDDDDDDD`],
 ................
 ................
 ..111111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..111111111DD1..
-..111111111DD1..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
-..1DD111111111..
-..1DD111111111..
-..1DDDDDDDDDD1..
-..1DDDDDDDDDD1..
+..133333333331..
+..133333333331..
+..133111111331..
+..133111111331..
+..133333333331..
+..133333333331..
+..133111111331..
+..133111111331..
+..133333333331..
+..133333333331..
 ..111111111111..
 ................
 ................`],
@@ -583,128 +585,145 @@ var currentSong;
 
 function initializeLevel(level) {
   clearText()
-  switch (level) {
-    case 0:
-      setMap(levels[0])
-      addText("MINESWEEPER", {
-        x: 4,
-        y: 2,
-        color: color`0`
-      })
-      addText("PLAY", {
-        x: 8,
-        y: 5,
-        color: color`0`
-      })
-      addText("SETTINGS", {
-        x: 6,
-        y: 9,
-        color: color`0`
-      })
-      addText("CREDITS", {
-        x: 6,
-        y: 13,
-        color: color`0`
-      })
-      var selected = 0
-      const playback = playTune(menuSong, Infinity)
-      onInput("w", () => {
-        getAll(boxLeftSelected).forEach((selector) =>
-          selector.remove()
-        )
-        getAll(boxCenterSelected).forEach((selector) =>
-          selector.remove()
-        )
-        getAll(boxRightSelected).forEach((selector) =>
-          selector.remove()
-        )
-        selected = Math.max(selected - 1, 0)
-        addSprite(1, selected + 1, boxLeftSelected)
-        addSprite(2, selected + 1, boxCenterSelected)
-        addSprite(3, selected + 1, boxRightSelected)
-
-      })
-      onInput("s", () => {
-        getAll(boxLeftSelected).forEach((selector) =>
-          selector.remove()
-        )
-        getAll(boxCenterSelected).forEach((selector) =>
-          selector.remove()
-        )
-        getAll(boxRightSelected).forEach((selector) =>
-          selector.remove()
-        )
-        selected = Math.min(selected + 1, 2)
-        addSprite(1, selected + 1, boxLeftSelected)
-        addSprite(2, selected + 1, boxCenterSelected)
-        addSprite(3, selected + 1, boxRightSelected)
-      })
-    case 1:
-      var selectedPosition = { x: 7, y: 7 }
-      setMap(levels[1])
-      for (let x = 0; x < 14; x++) {
-        for (let y = 0; y < 14; y++) {
-          if ((y + (x % 2)) % 2 == 0) {
-            addSprite(4 + x, 1 + y, minesweeperTileA)
-            addSprite(4 + x, 1 + y, minesweeperTileRingA)
-          } else {
-            addSprite(4 + x, 1 + y, minesweeperTileRingB)
-            addSprite(4 + x, 1 + y, minesweeperTileB)
-          }
+  if (level == 0) {
+    setMap(levels[0])
+    addText("MINESWEEPER", {
+      x: 4,
+      y: 2,
+      color: color`0`
+    })
+    addText("PLAY", {
+      x: 8,
+      y: 5,
+      color: color`0`
+    })
+    addText("SETTINGS", {
+      x: 6,
+      y: 9,
+      color: color`0`
+    })
+    addText("CREDITS", {
+      x: 6,
+      y: 13,
+      color: color`0`
+    })
+    var selected = 0
+    const playback = playTune(menuSong, Infinity)
+    onInput("w", () => {
+      getAll(boxLeftSelected).forEach((selector) =>
+        selector.remove()
+      )
+      getAll(boxCenterSelected).forEach((selector) =>
+        selector.remove()
+      )
+      getAll(boxRightSelected).forEach((selector) =>
+        selector.remove()
+      )
+      selected = Math.max(selected - 1, 0)
+      addSprite(1, selected + 1, boxLeftSelected)
+      addSprite(2, selected + 1, boxCenterSelected)
+      addSprite(3, selected + 1, boxRightSelected)
+      playTune(movement)
+    })
+    onInput("s", () => {
+      getAll(boxLeftSelected).forEach((selector) =>
+        selector.remove()
+      )
+      getAll(boxCenterSelected).forEach((selector) =>
+        selector.remove()
+      )
+      getAll(boxRightSelected).forEach((selector) =>
+        selector.remove()
+      )
+      selected = Math.min(selected + 1, 2)
+      addSprite(1, selected + 1, boxLeftSelected)
+      addSprite(2, selected + 1, boxCenterSelected)
+      addSprite(3, selected + 1, boxRightSelected)
+      playTune(movement)
+    })
+  } else if (level = 1) {
+    var selectedPosition = { x: 7, y: 7 }
+    setMap(levels[1])
+    for (let x = 0; x < 14; x++) {
+      for (let y = 0; y < 14; y++) {
+        if ((y + (x % 2)) % 2 == 0) {
+          addSprite(4 + x, 1 + y, minesweeperTileA)
+          addSprite(4 + x, 1 + y, minesweeperTileRingA)
+        } else {
+          addSprite(4 + x, 1 + y, minesweeperTileRingB)
+          addSprite(4 + x, 1 + y, minesweeperTileB)
         }
       }
-      addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
-      onInput("w", () => {
-        if (selectedPosition.y > 0) {
-          selectedPosition.y--
-        }
+    }
+    addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+    onInput("w", () => {
+      if (selectedPosition.y > 0) {
+        selectedPosition.y--      
         getAll(minesweeperSelectA).forEach((selector) =>
           selector.remove()
         )
         addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
-      })
-      onInput("s", () => {
-        if (selectedPosition.y < 13) {
-          selectedPosition.y++
-        }
+      }
+      playTune(movement)
+    })
+    onInput("s", () => {
+      if (selectedPosition.y < 13) {
+        selectedPosition.y++
         getAll(minesweeperSelectA).forEach((selector) =>
           selector.remove()
         )
         addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
-      })
-      onInput("a", () => {
-        if (selectedPosition.x > 0) {
-          selectedPosition.x--
-        }
+      }
+      playTune(movement)
+    })
+    onInput("a", () => {
+      if (selectedPosition.x > 0) {
+        selectedPosition.x--
         getAll(minesweeperSelectA).forEach((selector) =>
           selector.remove()
         )
         addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
-      })
-      onInput("d", () => {
-        if (selectedPosition.x < 13) {
-          selectedPosition.x++
-        }
+      }
+      playTune(movement)
+    })
+    onInput("d", () => {
+      if (selectedPosition.x < 13) {
+        selectedPosition.x++
         getAll(minesweeperSelectA).forEach((selector) =>
           selector.remove()
         )
         addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
-      })
-      onInput("i", () => {
-        if (currentBoard[selectedPosition.x][selectedPosition.y] == 0) {
-          clearTile(4 + selectedPosition.x, 1 + selectedPosition.y)
-          currentBoard[selectedPosition.x][selectedPosition.y] = -1
-          if ((selectedPosition.y + (selectedPosition.x % 2)) % 2 == 0) {
-            addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingA)
-            addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperOneA)
-  
-          } else {
-            addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingB)
-            addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, flagIconB)
-          }
-          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+      }
+      playTune(movement)
+    })
+    onInput("i", () => {
+      if (currentBoard[selectedPosition.x][selectedPosition.y] == 0) {
+        clearTile(4 + selectedPosition.x, 1 + selectedPosition.y)
+        currentBoard[selectedPosition.x][selectedPosition.y] = -1
+        if ((selectedPosition.y + (selectedPosition.x % 2)) % 2 == 0) {
+          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingA)
+          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, flagIconA)
+
+        } else {
+          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingB)
+          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, flagIconB)
         }
-      })
+        addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+      } else if (currentBoard[selectedPosition.x][selectedPosition.y] == -1) {
+        clearTile(4 + selectedPosition.x, 1 + selectedPosition.y)
+        currentBoard[selectedPosition.x][selectedPosition.y] = 0
+        if ((selectedPosition.y + (selectedPosition.x % 2)) % 2 == 0) {
+          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingA)
+          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileA)
+
+        } else {
+          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingB)
+          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileB)
+        }
+        addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+      }
+    })
+
   }
 }
-initializeLevel(1)
+initializeLevel(0)
