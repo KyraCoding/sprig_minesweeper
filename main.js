@@ -19,6 +19,12 @@ const minesweeperTileB = "T"
 const minesweeperBlankA = "b"
 const minesweeperBlankB = "B"
 const minesweeperBoard = "g"
+const minesweeperSelectA = "s"
+const minesweeperSelectB = "S"
+const minesweeperTileRingA = "p"
+const minesweeperTileRingB = "P"
+const minesweeperBlankRingA = "k"
+const minesweeperBlankRingB = "K"
 const minesweeperOne = "1"
 const flagIcon = "f"
 
@@ -160,39 +166,39 @@ setLegend(
 555555555555555.
 ................`],
   [minesweeperTileA, bitmap`
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444
-4444444444444444`],
+................
+................
+..444444444444..
+..444444444444..
+..444444444444..
+..444444444444..
+..444444444444..
+..444444444444..
+..444444444444..
+..444444444444..
+..444444444444..
+..444444444444..
+..444444444444..
+..444444444444..
+................
+................`],
   [minesweeperTileB, bitmap`
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD
-DDDDDDDDDDDDDDDD`],
+................
+................
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+................
+................`],
   [minesweeperBlankA, bitmap`
 8888888888888888
 8888888888888888
@@ -227,23 +233,109 @@ HHHHHHHHHHHHHHHH
 HHHHHHHHHHHHHHHH
 HHHHHHHHHHHHHHHH
 HHHHHHHHHHHHHHHH`],
+  [minesweeperSelectA, bitmap`
+6666666666666666
+6666666666666666
+66............66
+66............66
+66............66
+66............66
+66............66
+66............66
+66............66
+66............66
+66............66
+66............66
+66............66
+66............66
+6666666666666666
+6666666666666666`],
+  [minesweeperSelectB, bitmap`
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+FF............FF
+FF............FF
+FF............FF
+FF............FF
+FF............FF
+FF............FF
+FF............FF
+FF............FF
+FF............FF
+FF............FF
+FF............FF
+FF............FF
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF`],
+  [minesweeperTileRingA, bitmap`
+4444444444444444
+4444444444444444
+44............44
+44............44
+44............44
+44............44
+44............44
+44............44
+44............44
+44............44
+44............44
+44............44
+44............44
+44............44
+4444444444444444
+4444444444444444`],
+  [minesweeperTileRingB, bitmap`
+DDDDDDDDDDDDDDDD
+DDDDDDDDDDDDDDDD
+DD............DD
+DD............DD
+DD............DD
+DD............DD
+DD............DD
+DD............DD
+DD............DD
+DD............DD
+DD............DD
+DD............DD
+DD............DD
+DD............DD
+DDDDDDDDDDDDDDDD
+DDDDDDDDDDDDDDDD`],
+  [minesweeperBlankRingA, bitmap`
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH
+HH............HH
+HH............HH
+HH............HH
+HH............HH
+HH............HH
+HH............HH
+HH............HH
+HH............HH
+HH............HH
+HH............HH
+HH............HH
+HH............HH
+HHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHH`],
+  [minesweeperBlankRingB, bitmap``],
   [minesweeperBoard, bitmap`
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111`],
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
   [flagIcon, bitmap`
 ................
 ................
@@ -288,20 +380,20 @@ const levels = [
 .lcr.`,
   map`
 gggggggggggggggggggg
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
-ggg................g
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
 gggggggggggggggggggg`
 ]
 
@@ -365,7 +457,60 @@ function initializeLevel(level) {
         addSprite(3, selected + 1, boxRightSelected)
       })
     case 1:
+      var selectedPosition = {x:7,y:7}
       setMap(levels[1])
+      for (let x=0;x<14;x++){
+        for (let y=0;y<14;y++) {
+          if ((y+(x%2))%2 == 0) {
+            addSprite(4+x,1+y,minesweeperTileA)
+            addSprite(4+x,1+y,minesweeperTileRingA)
+          } else {
+            addSprite(4+x,1+y,minesweeperTileRingB)
+            addSprite(4+x,1+y,minesweeperTileB)
+          }
+        }
+      }
+      addSprite(4+selectedPosition.x,1+selectedPosition.y, minesweeperSelectA)
+      onInput("w", () => {
+        if (selectedPosition.y > 0) {
+          selectedPosition.y--
+        }
+        getAll(minesweeperSelectA).forEach((selector) =>
+          selector.remove()
+        )
+        addSprite(4+selectedPosition.x,1+selectedPosition.y, minesweeperSelectA)
+      })
+      onInput("s", () => {
+        if (selectedPosition.y < 13) {
+          selectedPosition.y++
+        }
+        getAll(minesweeperSelectA).forEach((selector) =>
+          selector.remove()
+        )
+        addSprite(4+selectedPosition.x,1+selectedPosition.y, minesweeperSelectA)
+      })
+      onInput("a", () => {
+        if (selectedPosition.x > 0) {
+          selectedPosition.x--
+        }
+        getAll(minesweeperSelectA).forEach((selector) =>
+          selector.remove()
+        )
+        addSprite(4+selectedPosition.x,1+selectedPosition.y, minesweeperSelectA)
+      })
+      onInput("d", () => {
+        if (selectedPosition.x < 13) {
+          selectedPosition.x++
+        }
+        getAll(minesweeperSelectA).forEach((selector) =>
+          selector.remove()
+        )
+        addSprite(4+selectedPosition.x,1+selectedPosition.y, minesweeperSelectA)
+      })
+      onInput("i", () => {
+          alert("test")
+          addSprite(4+selectedPosition.x,1+selectedPosition.y, flagIcon)
+      })
   }
 }
 initializeLevel(1)
