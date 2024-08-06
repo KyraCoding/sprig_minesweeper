@@ -232,39 +232,39 @@ setLegend(
 ................
 ................`],
   [minesweeperBlankA, bitmap`
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111
-1111111111111111`],
+................
+................
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+................
+................`],
   [minesweeperBlankB, bitmap`
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL
-LLLLLLLLLLLLLLLL`],
+................
+................
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+................
+................`],
   [minesweeperSelectA, bitmap`
 6666666666666666
 6666666666666666
@@ -563,28 +563,31 @@ const levels = [
 .lcr.
 .lcr.`,
   map`
-gggggggggggggggggggg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggggggggggggggggggg`
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+.B..................
+....................
+....................
+....................
+....................
+....................
+....................
+....................
+....................`
 ]
 
 var currentSong;
 
 function initializeLevel(level) {
   clearText()
+  getAll().forEach((element) => {
+    element.remove();
+  })
   if (level == 0) {
     setMap(levels[0])
     addText("MINESWEEPER", {
@@ -607,7 +610,7 @@ function initializeLevel(level) {
       y: 13,
       color: color`0`
     })
-    var selected = 0
+    var selected = null
     const playback = playTune(menuSong, Infinity)
     onInput("w", () => {
       getAll(boxLeftSelected).forEach((selector) =>
@@ -640,6 +643,11 @@ function initializeLevel(level) {
       addSprite(2, selected + 1, boxCenterSelected)
       addSprite(3, selected + 1, boxRightSelected)
       playTune(movement)
+    })
+    onInput("k", () => {
+      if (selected != null) {
+        initializeLevel(1)
+      }
     })
   } else if (level = 1) {
     var selectedPosition = { x: 7, y: 7 }
