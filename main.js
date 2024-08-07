@@ -45,6 +45,7 @@ const bombIconA = "["
 const bombIconB = "]"
 const flagIconA = "f"
 const flagIconB = "F"
+const minesweeperWhiteBoard = "G"
 
 const menuSong = tune`
 500: C4~500 + C5^500 + G5/500,
@@ -440,6 +441,23 @@ DDDDDD000000DDDD
 DDDDD00000000DDD
 DDDDDDDDDDDDDDDD
 DDDDDDDDDDDDDDDD`],
+  [minesweeperWhiteBoard, bitmap`
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222
+2222222222222222`],
   [minesweeper0A, bitmap`
 ................
 ................
@@ -789,26 +807,29 @@ const levels = [
 .lcr.
 .lcr.`,
   map`
-gggggggggggggggggggg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggg..............gg
-gggggggggggggggggggg`
+gggGGGGGGGGGGGGGGGGG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggG..............GG
+gggGGGGGGGGGGGGGGGGG`
 ]
 
 var currentSong;
 var currentLevel;
+var selectedPosition = { x: 7, y: 7 }
+var generatedLevel;
+var selected = null
 
 function calcDistance(x1, y1, x2, y2) {
   return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
@@ -818,7 +839,7 @@ function calcDistance(x1, y1, x2, y2) {
 function generateLevel(x, y) {
   // CONFIG
   // Number of mines
-  const totalMines = 12
+  const totalMines = 24
   // Do not spawn mines within this radius of x and y
   const radius = 2
 
@@ -899,8 +920,26 @@ function initializeLevel(level) {
       y: 13,
       color: color`0`
     })
-    var selected = null
     //currentSong = playTune(menuSong, Infinity)
+  } else if (level = 1) {
+    //currentSong = playTune(gameSong, Infinity)
+    setMap(levels[1])
+    for (let x = 0; x < 14; x++) {
+      for (let y = 0; y < 14; y++) {
+        if ((y + (x % 2)) % 2 == 0) {
+          addSprite(4 + x, 1 + y, minesweeperTileA)
+          addSprite(4 + x, 1 + y, minesweeperTileRingA)
+        } else {
+          addSprite(4 + x, 1 + y, minesweeperTileRingB)
+          addSprite(4 + x, 1 + y, minesweeperTileB)
+        }
+      }
+    }
+    addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+  }
+}
+initializeLevel(0)
+
     onInput("w", () => {
       if (currentLevel != 0) return;
       getAll(boxLeftSelected).forEach((selector) =>
@@ -942,24 +981,7 @@ function initializeLevel(level) {
         initializeLevel(1)
       }
     })
-  } else if (level = 1) {
-    //currentSong = playTune(gameSong, Infinity)
-    var generatedLevel;
-    var selectedPosition = { x: 7, y: 7 }
-    setMap(levels[1])
-    for (let x = 0; x < 14; x++) {
-      for (let y = 0; y < 14; y++) {
-        if ((y + (x % 2)) % 2 == 0) {
-          addSprite(4 + x, 1 + y, minesweeperTileA)
-          addSprite(4 + x, 1 + y, minesweeperTileRingA)
-        } else {
-          addSprite(4 + x, 1 + y, minesweeperTileRingB)
-          addSprite(4 + x, 1 + y, minesweeperTileB)
-        }
-      }
-    }
-    addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
-    onInput("w", () => {
+onInput("w", () => {
       if (currentLevel != 1) return;
       if (selectedPosition.y > 0) {
         selectedPosition.y--
@@ -1043,14 +1065,50 @@ function initializeLevel(level) {
               clearTile(4+x,1+y)
               if (generatedLevel[x][y] == -1) {
                 addSprite(4 + x, 1 + y, bombIconA)
-                addSprite(4 + x, 1 + y, minesweeperBlankRingA)
+              } else if (generatedLevel[x][y] == 0) {
+                addSprite(4 + x, 1 + y, minesweeper0A)
+              } else if (generatedLevel[x][y] == 1) {
+                addSprite(4 + x, 1 + y, minesweeper1A)
+              } else if (generatedLevel[x][y] == 2) {
+                addSprite(4 + x, 1 + y, minesweeper2A)
+              } else if (generatedLevel[x][y] == 3) {
+                addSprite(4 + x, 1 + y, minesweeper3A)
+              } else if (generatedLevel[x][y] == 4) {
+                addSprite(4 + x, 1 + y, minesweeper4A)
+              } else if (generatedLevel[x][y] == 5) {
+                addSprite(4 + x, 1 + y, minesweeper5A)
+              } else if (generatedLevel[x][y] == 6) {
+                addSprite(4 + x, 1 + y, minesweeper6A)
+              } else if (generatedLevel[x][y] == 7) {
+                addSprite(4 + x, 1 + y, minesweeper7A)
+              } else if (generatedLevel[x][y] == 8) {
+                addSprite(4 + x, 1 + y, minesweeper8A)
               }
+              addSprite(4 + x, 1 + y, minesweeperBlankRingA)
             } else {
               clearTile(4+x,1+y)
               if (generatedLevel[x][y] == -1) {
-                addSprite(4 + x, 1 + y, bombIconA)
-                addSprite(4 + x, 1 + y, minesweeperBlankRingA)
+                addSprite(4 + x, 1 + y, bombIconB)
+              } else if (generatedLevel[x][y] == 0) {
+                addSprite(4 + x, 1 + y, minesweeper0B)
+              } else if (generatedLevel[x][y] == 1) {
+                addSprite(4 + x, 1 + y, minesweeper1B)
+              } else if (generatedLevel[x][y] == 2) {
+                addSprite(4 + x, 1 + y, minesweeper2B)
+              } else if (generatedLevel[x][y] == 3) {
+                addSprite(4 + x, 1 + y, minesweeper3B)
+              } else if (generatedLevel[x][y] == 4) {
+                addSprite(4 + x, 1 + y, minesweeper4B)
+              } else if (generatedLevel[x][y] == 5) {
+                addSprite(4 + x, 1 + y, minesweeper5B)
+              } else if (generatedLevel[x][y] == 6) {
+                addSprite(4 + x, 1 + y, minesweeper6B)
+              } else if (generatedLevel[x][y] == 7) {
+                addSprite(4 + x, 1 + y, minesweeper7B)
+              } else if (generatedLevel[x][y] == 8) {
+                addSprite(4 + x, 1 + y, minesweeper8B)
               }
+              addSprite(4 + x, 1 + y, minesweeperBlankRingB)
             }
           }
         }
@@ -1061,6 +1119,3 @@ function initializeLevel(level) {
       playTune(confirm)
       initializeLevel(0)
     })
-  }
-}
-initializeLevel(0)0
