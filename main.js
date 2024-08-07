@@ -802,23 +802,47 @@ gggggggggggggggggggg`
 var currentSong;
 var currentLevel;
 
-// generate 14x14
-function generateLevel(x,y) {
-  // Do not spawn mines within a radius of 2 of x and y
-  const radius = 2
-  
-  
-}
-// Low is inclusive, high is exclusive
-function randomExclusion(low, high, exclude) {
-  if (exclude.includes(low) && exclude.includes(high)) return -1
-  var generate = low+Math.round((high-low)*Math.random())
-  while (exclude.includes(generate)) {
-    generate = low+Math.round((high-low)*Math.random())
-  }
-  return generate
+function calcDistance(x1,y1,x2,y2) {
+  return Math.sqrt((x1-x2)**2+(y1-y2)**2)
 }
 
+// generate 14x14
+function generateLevel(x,y) {
+  // CONFIG
+  // Number of mines
+  const totalMines = 12
+  // Do not spawn mines within this radius of x and y
+  const radius = 2
+  
+  var generatedBoard = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+]
+  
+  
+  for (var i=0;i<totalMines;i++) {
+    var location = [Math.floor(Math.random()*14),Math.floor(Math.random()*14)]
+    while (calcDistance(location[0],location[1],x,y) < radius || generatedBoard[location[0]][location[1]] == -1) {
+      location = [Math.floor(Math.random()*14),Math.floor(Math.random()*14)]
+    }
+    generatedBoard[location[0]][location[1]] = -1
+  }
+  return generatedBoard
+  
+}
+console.log(generateLevel(7,7))
 function initializeLevel(level) {
   currentLevel = level;
   clearText()
@@ -849,7 +873,7 @@ function initializeLevel(level) {
       color: color`0`
     })
     var selected = null
-    currentSong = playTune(menuSong, Infinity)
+    //currentSong = playTune(menuSong, Infinity)
     onInput("w", () => {
       if (currentLevel != 0) return;
       getAll(boxLeftSelected).forEach((selector) =>
@@ -892,7 +916,7 @@ function initializeLevel(level) {
       }
     })
   } else if (level = 1) {
-    currentSong = playTune(gameSong, Infinity)
+    //currentSong = playTune(gameSong, Infinity)
     var generatedLevel;
     var selectedPosition = { x: 7, y: 7 }
     setMap(levels[1])
@@ -990,6 +1014,7 @@ function initializeLevel(level) {
     })
     onInput("l", () => {
       if (currentLevel != 1) return;
+      playTune(confirm)
       initializeLevel(0)
     })
   }
