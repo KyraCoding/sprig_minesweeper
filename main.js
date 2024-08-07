@@ -74,6 +74,8 @@ const menuSong = tune`
 const movement = tune`
 500: C4~500,
 15500`
+const confirm = tune`
+NaN`
 
 // 0 -> Unopened
 // 1 -> Opened
@@ -606,7 +608,7 @@ gggg..............gg
 gggg..............gg
 gggg..............gg
 gggg..............gg
-[ggg..............gg
+gggg..............gg
 gggg..............gg
 gggg..............gg
 gggg..............gg
@@ -622,6 +624,15 @@ var currentLevel;
 
 function generateLevel() {
   
+}
+// Low is inclusive, high is exclusive
+function randomExclusion(low, high, exclude) {
+  if (exclude.includes(low) && exclude.includes(high)) return -1
+  var generate = low+Math.round((high-low)*Math.random())
+  while (exclude.includes(generate) {
+    generate = low+Math.round((high-low)*Math.random())
+  }
+  return generate
 }
 
 function initializeLevel(level) {
@@ -654,7 +665,7 @@ function initializeLevel(level) {
       color: color`0`
     })
     var selected = null
-    const currentSong = playTune(menuSong, Infinity)
+    currentSong = playTune(menuSong, Infinity)
     onInput("w", () => {
       if (currentLevel != 0) return;
       getAll(boxLeftSelected).forEach((selector) =>
@@ -691,7 +702,8 @@ function initializeLevel(level) {
     })
     onInput("k", () => {
       if (currentLevel != 0) return;
-      if (selected != null) {
+      if (selected == 0) {
+        playTune(movement)
         initializeLevel(1)
       }
     })
