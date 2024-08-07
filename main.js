@@ -16,8 +16,6 @@ const boxCenterSelected = "C"
 const boxRightSelected = "R"
 const minesweeperTileA = "t"
 const minesweeperTileB = "T"
-const minesweeperBlankA = "b"
-const minesweeperBlankB = "B"
 const minesweeperBoard = "g"
 const minesweeperSelectA = "s"
 const minesweeperSelectB = "S"
@@ -25,14 +23,24 @@ const minesweeperTileRingA = "p"
 const minesweeperTileRingB = "P"
 const minesweeperBlankRingA = "k"
 const minesweeperBlankRingB = "K"
-const minesweeperOneA = "1"
-const minesweeperTwoA = "2"
-const minesweeperThreeA = "3"
-const minesweeperFourA = "4"
-const minesweeperFiveA = "5"
-const minesweeperSixA = "6"
-const minesweeperSevenA = "7"
-const minesweeperEightA = "8"
+const minesweeper0A = "0"
+const minesweeper1A = "1"
+const minesweeper2A = "2"
+const minesweeper3A = "3"
+const minesweeper4A = "4"
+const minesweeper5A = "5"
+const minesweeper6A = "6"
+const minesweeper7A = "7"
+const minesweeper8A = "8"
+const minesweeper0B = ")"
+const minesweeper1B = "!"
+const minesweeper2B = "@"
+const minesweeper3B = "#"
+const minesweeper4B = "$"
+const minesweeper5B = "%"
+const minesweeper6B = "^"
+const minesweeper7B = "&"
+const minesweeper8B = "("
 const bombIconA = "["
 const bombIconB = "]"
 const flagIconA = "f"
@@ -279,40 +287,6 @@ setLegend(
 ..DDDDDDDDDDDD..
 ................
 ................`],
-  [minesweeperBlankA, bitmap`
-................
-................
-..111111111111..
-..111111111111..
-..111111111111..
-..111111111111..
-..111111111111..
-..111111111111..
-..111111111111..
-..111111111111..
-..111111111111..
-..111111111111..
-..111111111111..
-..111111111111..
-................
-................`],
-  [minesweeperBlankB, bitmap`
-................
-................
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-..LLLLLLLLLLLL..
-................
-................`],
   [minesweeperSelectA, bitmap`
 6666666666666666
 6666666666666666
@@ -466,7 +440,41 @@ DDDDDD000000DDDD
 DDDDD00000000DDD
 DDDDDDDDDDDDDDDD
 DDDDDDDDDDDDDDDD`],
-  [minesweeperOneA, bitmap`
+  [minesweeper0A, bitmap`
+................
+................
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+................
+................`],
+  [minesweeper0B, bitmap`
+................
+................
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+................
+................`],
+  [minesweeper1A, bitmap`
 ................
 ................
 ..111111111111..
@@ -483,7 +491,7 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
-  [minesweeperTwoA, bitmap`
+  [minesweeper2A, bitmap`
 ................
 ................
 ..111111111111..
@@ -500,7 +508,7 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
-  [minesweeperThreeA, bitmap`
+  [minesweeper3A, bitmap`
 ................
 ................
 ..111111111111..
@@ -517,7 +525,7 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
-  [minesweeperFourA, bitmap`
+  [minesweeper4A, bitmap`
 ................
 ................
 ..111111111111..
@@ -534,7 +542,7 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
-  [minesweeperFiveA, bitmap`
+  [minesweeper5A, bitmap`
 ................
 ................
 ..111111111111..
@@ -551,7 +559,7 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
-  [minesweeperSixA, bitmap`
+  [minesweeper6A, bitmap`
 ................
 ................
 ..111111111111..
@@ -568,7 +576,7 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
-  [minesweeperSevenA, bitmap`
+  [minesweeper7A, bitmap`
 ................
 ................
 ..111111111111..
@@ -585,7 +593,7 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
-  [minesweeperEightA, bitmap`
+  [minesweeper8A, bitmap`
 ................
 ................
 ..111111111111..
@@ -602,7 +610,7 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
-  [minesweeperOneA, bitmap`
+  [minesweeper1B, bitmap`
 ................
 ................
 ..LLLLLLLLLLLL..
@@ -619,7 +627,7 @@ DDDDDDDDDDDDDDDD`],
 ..LLLLLLLLLLLL..
 ................
 ................`],
-  [minesweeperTwoA, bitmap`
+  [minesweeper2B, bitmap`
 ................
 ................
 ..LLLLLLLLLLLL..
@@ -636,7 +644,7 @@ DDDDDDDDDDDDDDDD`],
 ..LLLLLLLLLLLL..
 ................
 ................`],
-  [minesweeperThreeA, bitmap`
+  [minesweeper3B, bitmap`
 ................
 ................
 ..LLLLLLLLLLLL..
@@ -653,7 +661,7 @@ DDDDDDDDDDDDDDDD`],
 ..LLLLLLLLLLLL..
 ................
 ................`],
-  [minesweeperFourA, bitmap`
+  [minesweeper4B, bitmap`
 ................
 ................
 ..LLLLLLLLLLLL..
@@ -670,7 +678,7 @@ DDDDDDDDDDDDDDDD`],
 ..LLLLLLLLLLLL..
 ................
 ................`],
-  [minesweeperFiveA, bitmap`
+  [minesweeper5B, bitmap`
 ................
 ................
 ..LLLLLLLLLLLL..
@@ -687,7 +695,7 @@ DDDDDDDDDDDDDDDD`],
 ..LLLLLLLLLLLL..
 ................
 ................`],
-  [minesweeperSixA, bitmap`
+  [minesweeper6B, bitmap`
 ................
 ................
 ..LLLLLLLLLLLL..
@@ -704,7 +712,7 @@ DDDDDDDDDDDDDDDD`],
 ..LLLLLLLLLLLL..
 ................
 ................`],
-  [minesweeperSevenA, bitmap`
+  [minesweeper7B, bitmap`
 ................
 ................
 ..LLLLLLLLLLLL..
@@ -721,7 +729,7 @@ DDDDDDDDDDDDDDDD`],
 ..LLLLLLLLLLLL..
 ................
 ................`],
-  [minesweeperEightA, bitmap`
+  [minesweeper8B, bitmap`
 ................
 ................
 ..LLLLLLLLLLLL..
@@ -802,51 +810,70 @@ gggggggggggggggggggg`
 var currentSong;
 var currentLevel;
 
-function calcDistance(x1,y1,x2,y2) {
-  return Math.sqrt((x1-x2)**2+(y1-y2)**2)
+function calcDistance(x1, y1, x2, y2) {
+  return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 }
 
 // generate 14x14
-function generateLevel(x,y) {
+function generateLevel(x, y) {
   // CONFIG
   // Number of mines
   const totalMines = 12
   // Do not spawn mines within this radius of x and y
   const radius = 2
-  
+
   var generatedBoard = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-]
-  
-  
-  for (var i=0;i<totalMines;i++) {
-    var location = [Math.floor(Math.random()*14),Math.floor(Math.random()*14)]
-    while (calcDistance(location[0],location[1],x,y) < radius || generatedBoard[location[0]][location[1]] == -1) {
-      location = [Math.floor(Math.random()*14),Math.floor(Math.random()*14)]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ]
+  var mineLocations = []
+
+
+  for (var i = 0; i < totalMines; i++) {
+    var location = [Math.floor(Math.random() * 14), Math.floor(Math.random() * 14)]
+    while (calcDistance(location[0], location[1], x, y) < radius || generatedBoard[location[0]][location[1]] == -1) {
+      location = [Math.floor(Math.random() * 14), Math.floor(Math.random() * 14)]
     }
     generatedBoard[location[0]][location[1]] = -1
+    mineLocations.push(location)
   }
+  const neighbors = [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, -1],
+    [0, 1],
+    [1, -1],
+    [1, 0],
+    [1, 1]
+  ]
+  mineLocations.forEach((mine) => {
+    neighbors.forEach((loc) => {
+      if (!(mine[0] + loc[0] > 13 || mine[0] + loc[0] < 0 || mine[1] + loc[1] > 13 || mine[1] + loc[1] < 0 || generatedBoard[mine[0] + loc[0]][mine[1] + loc[1]] == -1)) {
+        generatedBoard[mine[0] + loc[0]][mine[1] + loc[1]]++
+      }
+    })
+  })
   return generatedBoard
-  
 }
-console.log(generateLevel(7,7))
+console.log(generateLevel(7, 7))
+
 function initializeLevel(level) {
   currentLevel = level;
   clearText()
-  try {currentSong.end()} catch {}
+  try { currentSong.end() } catch {}
   getAll().forEach((element) => {
     element.remove();
   })
@@ -935,7 +962,7 @@ function initializeLevel(level) {
     onInput("w", () => {
       if (currentLevel != 1) return;
       if (selectedPosition.y > 0) {
-        selectedPosition.y--      
+        selectedPosition.y--
         getAll(minesweeperSelectA).forEach((selector) =>
           selector.remove()
         )
@@ -1009,7 +1036,24 @@ function initializeLevel(level) {
     onInput("j", () => {
       if (currentLevel != 1) return;
       if (!generatedLevel) {
-        generatedLevel = generateLevel(selectedPosition.x,selectedPosition.y)
+        generatedLevel = generateLevel(selectedPosition.x, selectedPosition.y)
+        for (let x = 0; x < 14; x++) {
+          for (let y = 0; y < 14; y++) {
+            if ((y + (x % 2)) % 2 == 0) {
+              clearTile(4+x,1+y)
+              if (generatedLevel[x][y] == -1) {
+                addSprite(4 + x, 1 + y, bombIconA)
+                addSprite(4 + x, 1 + y, minesweeperBlankRingA)
+              }
+            } else {
+              clearTile(4+x,1+y)
+              if (generatedLevel[x][y] == -1) {
+                addSprite(4 + x, 1 + y, bombIconA)
+                addSprite(4 + x, 1 + y, minesweeperBlankRingA)
+              }
+            }
+          }
+        }
       }
     })
     onInput("l", () => {
@@ -1019,4 +1063,4 @@ function initializeLevel(level) {
     })
   }
 }
-initializeLevel(0)
+initializeLevel(0)0
