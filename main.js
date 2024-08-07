@@ -563,28 +563,30 @@ const levels = [
 .lcr.
 .lcr.`,
   map`
-....................
-....................
-....................
-....................
-....................
-....................
-....................
-.B..................
-....................
-....................
-....................
-....................
-....................
-....................
-....................
-....................`
+gggggggggggggggggggg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggg..............gg
+gggggggggggggggggggg`
 ]
 
 var currentSong;
-
+var currentLevel;
 function initializeLevel(level) {
+  currentLevel = level;
   clearText()
+  try {currentSong.end()} catch {}
   getAll().forEach((element) => {
     element.remove();
   })
@@ -611,8 +613,9 @@ function initializeLevel(level) {
       color: color`0`
     })
     var selected = null
-    const playback = playTune(menuSong, Infinity)
+    const currentSong = playTune(menuSong, Infinity)
     onInput("w", () => {
+      if (currentLevel != 0) return;
       getAll(boxLeftSelected).forEach((selector) =>
         selector.remove()
       )
@@ -629,6 +632,7 @@ function initializeLevel(level) {
       playTune(movement)
     })
     onInput("s", () => {
+      if (currentLevel != 0) return;
       getAll(boxLeftSelected).forEach((selector) =>
         selector.remove()
       )
@@ -645,6 +649,7 @@ function initializeLevel(level) {
       playTune(movement)
     })
     onInput("k", () => {
+      if (currentLevel != 0) return;
       if (selected != null) {
         initializeLevel(1)
       }
@@ -665,6 +670,7 @@ function initializeLevel(level) {
     }
     addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
     onInput("w", () => {
+      if (currentLevel != 1) return;
       if (selectedPosition.y > 0) {
         selectedPosition.y--      
         getAll(minesweeperSelectA).forEach((selector) =>
@@ -675,6 +681,7 @@ function initializeLevel(level) {
       playTune(movement)
     })
     onInput("s", () => {
+      if (currentLevel != 1) return;
       if (selectedPosition.y < 13) {
         selectedPosition.y++
         getAll(minesweeperSelectA).forEach((selector) =>
@@ -685,6 +692,7 @@ function initializeLevel(level) {
       playTune(movement)
     })
     onInput("a", () => {
+      if (currentLevel != 1) return;
       if (selectedPosition.x > 0) {
         selectedPosition.x--
         getAll(minesweeperSelectA).forEach((selector) =>
@@ -695,6 +703,7 @@ function initializeLevel(level) {
       playTune(movement)
     })
     onInput("d", () => {
+      if (currentLevel != 1) return;
       if (selectedPosition.x < 13) {
         selectedPosition.x++
         getAll(minesweeperSelectA).forEach((selector) =>
@@ -705,6 +714,7 @@ function initializeLevel(level) {
       playTune(movement)
     })
     onInput("i", () => {
+      if (currentLevel != 1) return;
       if (currentBoard[selectedPosition.x][selectedPosition.y] == 0) {
         clearTile(4 + selectedPosition.x, 1 + selectedPosition.y)
         currentBoard[selectedPosition.x][selectedPosition.y] = -1
@@ -731,7 +741,10 @@ function initializeLevel(level) {
         addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
       }
     })
-
+    onInput("l", () => {
+      if (currentLevel != 1) return;
+      initializeLevel(0)
+    })
   }
 }
 initializeLevel(0)
