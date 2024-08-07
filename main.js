@@ -33,6 +33,8 @@ const minesweeperFiveA = "5"
 const minesweeperSixA = "6"
 const minesweeperSevenA = "7"
 const minesweeperEightA = "8"
+const bombIconA = "["
+const bombIconB = "]"
 const flagIconA = "f"
 const flagIconB = "F"
 
@@ -554,6 +556,40 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
+  [bombIconA, bitmap`
+................
+................
+..111000000111..
+..100000000001..
+..100000000001..
+..000300003000..
+..000030030000..
+..000003300000..
+..000003300000..
+..000030030000..
+..000300003000..
+..100000000001..
+..100000000001..
+..111000000111..
+................
+................`],
+  [bombIconB, bitmap`
+................
+................
+..LLL000000LLL..
+..L0000000000L..
+..L0000000000L..
+..000300003000..
+..000030030000..
+..000003300000..
+..000003300000..
+..000030030000..
+..000300003000..
+..L0000000000L..
+..L0000000000L..
+..LLL000000LLL..
+................
+................`]
 )
 
 const levels = [
@@ -570,7 +606,7 @@ gggg..............gg
 gggg..............gg
 gggg..............gg
 gggg..............gg
-gggg..............gg
+[ggg..............gg
 gggg..............gg
 gggg..............gg
 gggg..............gg
@@ -583,6 +619,11 @@ gggggggggggggggggggg`
 
 var currentSong;
 var currentLevel;
+
+function generateLevel() {
+  
+}
+
 function initializeLevel(level) {
   currentLevel = level;
   clearText()
@@ -655,6 +696,7 @@ function initializeLevel(level) {
       }
     })
   } else if (level = 1) {
+    var generatedLevel;
     var selectedPosition = { x: 7, y: 7 }
     setMap(levels[1])
     for (let x = 0; x < 14; x++) {
@@ -739,6 +781,12 @@ function initializeLevel(level) {
           addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileB)
         }
         addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+      }
+    })
+    onInput("j", () => {
+      if (currentLevel != 1) return;
+      if (!generatedLevel) {
+        generatedLevel = generateLevel(selectedPosition.x,selectedPosition.y)
       }
     })
     onInput("l", () => {
