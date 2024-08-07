@@ -112,6 +112,14 @@ const confirm = tune`
 125: C5^125,
 125: G5^125,
 3625`
+const placeFlag = tune`
+125: G5^125,
+125: G5^125,
+3750`
+const removeFlag = tune`
+125: G5^125,
+125: F5^125,
+3750`
 
 // 0 -> Unopened
 // 1 -> Opened
@@ -594,6 +602,142 @@ DDDDDDDDDDDDDDDD`],
 ..111111111111..
 ................
 ................`],
+  [minesweeperOneA, bitmap`
+................
+................
+..LLLLLLLLLLLL..
+..LLLLL77LLLLL..
+..LLLLL77LLLLL..
+..LLLLL77LLLLL..
+..LLLLL77LLLLL..
+..LLLLL77LLLLL..
+..LLLLL77LLLLL..
+..LLLLL77LLLLL..
+..LLLLL77LLLLL..
+..LLLLL77LLLLL..
+..LLLLL77LLLLL..
+..LLLLLLLLLLLL..
+................
+................`],
+  [minesweeperTwoA, bitmap`
+................
+................
+..LLLLLLLLLLLL..
+..LDDDDDDDDDDL..
+..LDDDDDDDDDDL..
+..LLLLLLLLLDDL..
+..LLLLLLLLLDDL..
+..LDDDDDDDDDDL..
+..LDDDDDDDDDDL..
+..LDDLLLLLLLLL..
+..LDDLLLLLLLLL..
+..LDDDDDDDDDDL..
+..LDDDDDDDDDDL..
+..LLLLLLLLLLLL..
+................
+................`],
+  [minesweeperThreeA, bitmap`
+................
+................
+..LLLLLLLLLLLL..
+..LCCCCCCCCCCL..
+..LCCCCCCCCCCL..
+..LLLLLLLLLCCL..
+..LLLLLLLLLCCL..
+..LCCCCCCCCCCL..
+..LCCCCCCCCCCL..
+..LLLLLLLLLCCL..
+..LLLLLLLLLCCL..
+..LCCCCCCCCCCL..
+..LCCCCCCCCCCL..
+..LLLLLLLLLLLL..
+................
+................`],
+  [minesweeperFourA, bitmap`
+................
+................
+..LLLLLLLLLLLL..
+..LHHLLLLLLHHL..
+..LHHLLLLLLHHL..
+..LHHLLLLLLHHL..
+..LHHLLLLLLHHL..
+..LHHHHHHHHHHL..
+..LHHHHHHHHHHL..
+..LLLLLLLLLHHL..
+..LLLLLLLLLHHL..
+..LLLLLLLLLHHL..
+..LLLLLLLLLHHL..
+..LLLLLLLLLLLL..
+................
+................`],
+  [minesweeperFiveA, bitmap`
+................
+................
+..LLLLLLLLLLLL..
+..L9999999999L..
+..L9999999999L..
+..L9LLLLLLLLLL..
+..L9LLLLLLLLLL..
+..L9999999999L..
+..L9999999999L..
+..LLLLLLLLL99L..
+..LLLLLLLLL99L..
+..L9999999999L..
+..L9999999999L..
+..LLLLLLLLLLLL..
+................
+................`],
+  [minesweeperSixA, bitmap`
+................
+................
+..LLLLLLLLLLLL..
+..L5555555555L..
+..L5555555555L..
+..L55LLLLLLLLL..
+..L55LLLLLLLLL..
+..L5555555555L..
+..L5555555555L..
+..L55LLLLLL55L..
+..L55LLLLLL55L..
+..L5555555555L..
+..L5555555555L..
+..LLLLLLLLLLLL..
+................
+................`],
+  [minesweeperSevenA, bitmap`
+................
+................
+..LLLLLLLLLLLL..
+..L8888888888L..
+..L8888888888L..
+..LLLLLLLLL88L..
+..LLLLLLLLL88L..
+..LLLLLLL88LLL..
+..LLLLLLL88LLL..
+..LLLLL88LLLLL..
+..LLLLL88LLLLL..
+..LLL88LLLLLLL..
+..LLL88LLLLLLL..
+..LLLLLLLLLLLL..
+................
+................`],
+  [minesweeperEightA, bitmap`
+................
+................
+..LLLLLLLLLLLL..
+..L3333333333L..
+..L3333333333L..
+..L33LLLLLL33L..
+..L33LLLLLL33L..
+..L3333333333L..
+..L3333333333L..
+..L33LLLLLL33L..
+..L33LLLLLL33L..
+..L3333333333L..
+..L3333333333L..
+..LLLLLLLLLLLL..
+................
+................`],
   [bombIconA, bitmap`
 ................
 ................
@@ -658,7 +802,11 @@ gggggggggggggggggggg`
 var currentSong;
 var currentLevel;
 
-function generateLevel() {
+// generate 14x14
+function generateLevel(x,y) {
+  // Do not spawn mines within a radius of 2 of x and y
+  const radius = 2
+  
   
 }
 // Low is inclusive, high is exclusive
@@ -807,6 +955,7 @@ function initializeLevel(level) {
     onInput("i", () => {
       if (currentLevel != 1) return;
       if (currentBoard[selectedPosition.x][selectedPosition.y] == 0) {
+        playTune(placeFlag)
         clearTile(4 + selectedPosition.x, 1 + selectedPosition.y)
         currentBoard[selectedPosition.x][selectedPosition.y] = -1
         if ((selectedPosition.y + (selectedPosition.x % 2)) % 2 == 0) {
@@ -819,6 +968,7 @@ function initializeLevel(level) {
         }
         addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
       } else if (currentBoard[selectedPosition.x][selectedPosition.y] == -1) {
+        playTune(removeFlag)
         clearTile(4 + selectedPosition.x, 1 + selectedPosition.y)
         currentBoard[selectedPosition.x][selectedPosition.y] = 0
         if ((selectedPosition.y + (selectedPosition.x % 2)) % 2 == 0) {
