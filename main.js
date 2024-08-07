@@ -71,11 +71,47 @@ const menuSong = tune`
 500: F5/500,
 500: G4~500 + B4^500 + E5/500,
 500: G4~500 + B4^500 + D5/500`
+const gameSong = tune`
+500: E5~500,
+500: E5~500,
+500: F5~500,
+500: F5~500,
+500: G5~500,
+500: G5~500 + E4~500,
+500: F4~500,
+500: G4~500,
+500: G5~500,
+500: G5~500,
+500: F5~500,
+500: F5~500,
+500: E5~500,
+500: E5~500 + G4~500,
+500: F4~500,
+500: E4~500,
+500: E5~500,
+500: E5~500,
+500: F5~500,
+500: F5~500,
+500: G5~500,
+500: G5~500 + E4~500,
+500: F4~500,
+500: G4~500,
+500: E5~500,
+500: E5~500,
+500: D5~500,
+500: D5~500,
+500: C5~500,
+500: C5~500 + F4~500,
+500: E4~500,
+500: D4~500`
 const movement = tune`
 500: C4~500,
 15500`
 const confirm = tune`
-NaN`
+125: E5^125,
+125: C5^125,
+125: G5^125,
+3625`
 
 // 0 -> Unopened
 // 1 -> Opened
@@ -629,7 +665,7 @@ function generateLevel() {
 function randomExclusion(low, high, exclude) {
   if (exclude.includes(low) && exclude.includes(high)) return -1
   var generate = low+Math.round((high-low)*Math.random())
-  while (exclude.includes(generate) {
+  while (exclude.includes(generate)) {
     generate = low+Math.round((high-low)*Math.random())
   }
   return generate
@@ -703,11 +739,12 @@ function initializeLevel(level) {
     onInput("k", () => {
       if (currentLevel != 0) return;
       if (selected == 0) {
-        playTune(movement)
+        playTune(confirm)
         initializeLevel(1)
       }
     })
   } else if (level = 1) {
+    currentSong = playTune(gameSong, Infinity)
     var generatedLevel;
     var selectedPosition = { x: 7, y: 7 }
     setMap(levels[1])
