@@ -10,7 +10,7 @@ https://sprig.hackclub.com/gallery/getting_started
 
 // CONFIG
 // Number of mines
-const totalMines = 33
+const totalMines = 15
 // Do not spawn mines within this radius of x and y
 const radius = 3
 
@@ -154,6 +154,16 @@ const reveal = tune`
 125: G5/125,
 125: G5/125,
 3750`
+const fail = tune`
+125: C4/125,
+125: G4/125,
+125: C5/125,
+3625`
+const win = tune`
+125: C4/125,
+125: G4/125,
+125: C5/125,
+3625`
 
 // 0 -> Unopened
 // 1 -> Opened
@@ -1071,7 +1081,7 @@ const levels = [
 .lcr.`,
   map`
 <零零零GGGGGGGGGGGGGGGG
->gggG..............G
+>g零零G..............G
 yyyyG..............G
 yyyyG..............G
 yyyyG..............G
@@ -1085,7 +1095,16 @@ yyyyG..............G
 yyyyG..............G
 yyyyG..............G
 yyyyG..............G
-yyyyGGGGGGGGGGGGGGGG`
+yyyyGGGGGGGGGGGGGGGG`,
+  map`
+..........
+...g..g...
+...g..g...
+..........
+...gggg...
+..g....g..
+..g....g..
+..........`
 ]
 
 var currentSong;
@@ -1094,6 +1113,7 @@ var selectedPosition = { x: 7, y: 7 }
 var generatedLevel;
 var selected = null
 var timerTimeouts = []
+var minesRemaining = totalMines
 
 const aIcons = [bombIconA, minesweeper0A, minesweeper1A, minesweeper2A, minesweeper3A, minesweeper4A, minesweeper5A, minesweeper6A, minesweeper7A, minesweeper8A]
 const bIcons = [bombIconB, minesweeper0B, minesweeper1B, minesweeper2B, minesweeper3B, minesweeper4B, minesweeper5B, minesweeper6B, minesweeper7B, minesweeper8B]
@@ -1103,6 +1123,29 @@ function calcDistance(x1, y1, x2, y2) {
   return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 }
 
+function reset() {
+  generatedLevel = undefined
+  minesRemaining = totalMines
+  currentBoard = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ]
+  timerTimeouts.forEach((timeout) => {
+    clearInterval(timeout)
+  })
+}
 // generate 14x14
 function generateLevel(x, y) {
   var generatedBoard = [
@@ -1153,6 +1196,7 @@ function generateLevel(x, y) {
 }
 
 function initializeLevel(level) {
+  reset()
   currentLevel = level;
   clearText()
   try { currentSong.end() } catch {}
@@ -1182,7 +1226,9 @@ function initializeLevel(level) {
       color: color`0`
     })
     //currentSong = playTune(menuSong, Infinity)
-  } else if (level = 1) {
+    return
+  }
+  if (level == 1) {
     //currentSong = playTune(gameSong, Infinity)
     selectedPosition = { x: 7, y: 7 }
     setMap(levels[1])
@@ -1198,6 +1244,15 @@ function initializeLevel(level) {
       }
     }
     addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+    clearTile(2, 1)
+    clearTile(3, 1)
+    addSprite(2, 1, timeIcons[String(minesRemaining).padStart(2, '0')[0]])
+    addSprite(3, 1, timeIcons[String(minesRemaining).padStart(2, '0')[1]])
+    return
+  }
+  if (level == 2) {
+    setMap(levels[2])
+    return
   }
 }
 
@@ -1316,8 +1371,11 @@ onInput("d", () => {
   playTune(movement)
 })
 onInput("i", () => {
-  if (currentLevel != 1) return;
+  if (currentLevel != 1 || minesRemaining < 1) return;
+
+  // Place Flag
   if (currentBoard[selectedPosition.x][selectedPosition.y] == 0) {
+    minesRemaining--
     playTune(placeFlag)
     clearTile(5 + selectedPosition.x, 1 + selectedPosition.y)
     currentBoard[selectedPosition.x][selectedPosition.y] = -1
@@ -1330,7 +1388,10 @@ onInput("i", () => {
       addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, flagIconB)
     }
     addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+
+    // Remove Flag
   } else if (currentBoard[selectedPosition.x][selectedPosition.y] == -1) {
+    minesRemaining++
     playTune(removeFlag)
     clearTile(5 + selectedPosition.x, 1 + selectedPosition.y)
     currentBoard[selectedPosition.x][selectedPosition.y] = 0
@@ -1344,6 +1405,10 @@ onInput("i", () => {
     }
     addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
   }
+  clearTile(2, 1)
+  clearTile(3, 1)
+  addSprite(2, 1, timeIcons[String(minesRemaining).padStart(2, '0')[0]])
+  addSprite(3, 1, timeIcons[String(minesRemaining).padStart(2, '0')[1]])
 })
 onInput("j", () => {
   if (currentLevel != 1) return;
@@ -1365,29 +1430,13 @@ onInput("j", () => {
   }
   playTune(reveal)
   revealTile(selectedPosition.x, selectedPosition.y)
+  if (generatedLevel[selectedPosition.x][selectedPosition.y] == -1) {
+    playTune(fail)
+    initializeLevel(2)
+  }
 })
 onInput("l", () => {
   if (currentLevel != 1) return;
   playTune(confirm)
-  generatedLevel = undefined
-  currentBoard = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  ]
-  timerTimeouts.forEach((timeout) => {
-    clearInterval(timeout)
-  })
   initializeLevel(0)
 })
