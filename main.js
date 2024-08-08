@@ -8,6 +8,13 @@ https://sprig.hackclub.com/gallery/getting_started
 @addedOn: 2024-00-00
 */
 
+// CONFIG
+// Number of mines
+const totalMines = 33
+// Do not spawn mines within this radius of x and y
+const radius = 3
+
+
 const boxLeft = "l"
 const boxCenter = "c"
 const boxRight = "r"
@@ -50,6 +57,16 @@ const flagIconC = ">"
 const bombIconC = "?"
 const minesweeperWhiteBoard = "G"
 const minesweeperGrayBoard = "y"
+const zero = "零"
+const one = "一"
+const two = "二"
+const three = "三"
+const four = "四"
+const five = "五"
+const six = "六"
+const seven = "七"
+const eight = "八"
+const nine = "九"
 
 const menuSong = tune`
 500: C4~500 + C5^500 + G5/500,
@@ -133,11 +150,15 @@ const removeFlag = tune`
 125: G5^125,
 125: F5^125,
 3750`
+const reveal = tune`
+125: G5/125,
+125: G5/125,
+3750`
 
 // 0 -> Unopened
 // 1 -> Opened
 // -1 -> Flagged
-const currentBoard = [
+var currentBoard = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -771,35 +792,35 @@ DDDDDDDDDDDDDDDD`],
   [bombIconA, bitmap`
 ................
 ................
-..111000000111..
-..100000000001..
-..100000000001..
-..000300003000..
-..000030030000..
-..000003300000..
-..000003300000..
-..000030030000..
-..000300003000..
-..100000000001..
-..100000000001..
-..111000000111..
+..331111111133..
+..333111111333..
+..133311113331..
+..113331133311..
+..111333333111..
+..111133331111..
+..111133331111..
+..111333333111..
+..113331133311..
+..133311113331..
+..333111111333..
+..331111111133..
 ................
 ................`],
   [bombIconB, bitmap`
 ................
 ................
-..LLL000000LLL..
-..L0000000000L..
-..L0000000000L..
-..000300003000..
-..000030030000..
-..000003300000..
-..000003300000..
-..000030030000..
-..000300003000..
-..L0000000000L..
-..L0000000000L..
-..LLL000000LLL..
+..33LLLLLLLL33..
+..333LLLLLL333..
+..L333LLLL333L..
+..LL333LL333LL..
+..LLL333333LLL..
+..LLLL3333LLLL..
+..LLLL3333LLLL..
+..LLL333333LLL..
+..LL333LL333LL..
+..L333LLLL333L..
+..333LLLLLL333..
+..33LLLLLLLL33..
 ................
 ................`],
   [flagIconC, bitmap`
@@ -869,7 +890,177 @@ LLLLLLLLLLLLLLLL`],
 1111111111111111
 1111111111111111
 1111111111111111
-1111111111111111`]
+1111111111111111`],
+  [zero, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLL2222222222LLL
+LLL2222222222LLL
+LLL22LLLLLL22LLL
+LLL22LLLLLL22LLL
+LLL22LLLLLL22LLL
+LLL22LLLLLL22LLL
+LLL22LLLLLL22LLL
+LLL22LLLLLL22LLL
+LLL22LLLLLL22LLL
+LLL22LLLLLL22LLL
+LLL2222222222LLL
+LLL2222222222LLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [one, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLL22LLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [two, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LL222222222222LL
+LL222222222222LL
+LL22LLLLLLLLLLLL
+LL22LLLLLLLLLLLL
+LL22LLLLLLLLLLLL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [three, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [four, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [five, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LL222222222222LL
+LL222222222222LL
+LL22LLLLLLLLLLLL
+LL22LLLLLLLLLLLL
+LL22LLLLLLLLLLLL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [six, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LL222222222222LL
+LL222222222222LL
+LL22LLLLLLLLLLLL
+LL22LLLLLLLLLLLL
+LL22LLLLLLLLLLLL
+LL222222222222LL
+LL222222222222LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [seven, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLL22LLLL
+LLLLLLLLLL22LLLL
+LLLLLLLL22LLLLLL
+LLLLLLLL22LLLLLL
+LLLLLL22LLLLLLLL
+LLLLLL22LLLLLLLL
+LLLL22LLLLLLLLLL
+LLLL22LLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [eight, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LL222222222222LL
+LL222222222222LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL222222222222LL
+LL222222222222LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [nine, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LL222222222222LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL22LLLLLLLL22LL
+LL222222222222LL
+LL222222222222LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLL22LL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`]
 )
 
 const levels = [
@@ -879,7 +1070,7 @@ const levels = [
 .lcr.
 .lcr.`,
   map`
-<gggGGGGGGGGGGGGGGGG
+<零零零GGGGGGGGGGGGGGGG
 >gggG..............G
 yyyyG..............G
 yyyyG..............G
@@ -902,9 +1093,11 @@ var currentLevel;
 var selectedPosition = { x: 7, y: 7 }
 var generatedLevel;
 var selected = null
+var timerTimeouts = []
 
 const aIcons = [bombIconA, minesweeper0A, minesweeper1A, minesweeper2A, minesweeper3A, minesweeper4A, minesweeper5A, minesweeper6A, minesweeper7A, minesweeper8A]
 const bIcons = [bombIconB, minesweeper0B, minesweeper1B, minesweeper2B, minesweeper3B, minesweeper4B, minesweeper5B, minesweeper6B, minesweeper7B, minesweeper8B]
+const timeIcons = [zero, one, two, three, four, five, six, seven, eight, nine]
 
 function calcDistance(x1, y1, x2, y2) {
   return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
@@ -912,12 +1105,6 @@ function calcDistance(x1, y1, x2, y2) {
 
 // generate 14x14
 function generateLevel(x, y) {
-  // CONFIG
-  // Number of mines
-  const totalMines = 42
-  // Do not spawn mines within this radius of x and y
-  const radius = 2
-
   var generatedBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -964,7 +1151,6 @@ function generateLevel(x, y) {
   })
   return generatedBoard
 }
-console.log(generateLevel(7, 7))
 
 function initializeLevel(level) {
   currentLevel = level;
@@ -998,6 +1184,7 @@ function initializeLevel(level) {
     //currentSong = playTune(menuSong, Infinity)
   } else if (level = 1) {
     //currentSong = playTune(gameSong, Infinity)
+    selectedPosition = { x: 7, y: 7 }
     setMap(levels[1])
     for (let x = 0; x < 14; x++) {
       for (let y = 0; y < 14; y++) {
@@ -1020,18 +1207,23 @@ function revealTile(x, y, revealed = new Set()) {
   }
   if (generatedLevel[x][y] == 0 && !revealed.has(`${x},${y}`)) {
     revealed.add(`${x},${y}`);
-    revealTile(x+1,y,revealed)
-    revealTile(x-1,y,revealed)
-    revealTile(x,y+1,revealed)
-    revealTile(x,y-1,revealed)
+    revealTile(x - 1, y - 1, revealed)
+    revealTile(x - 1, y, revealed)
+    revealTile(x - 1, y + 1, revealed)
+    revealTile(x, y + 1, revealed)
+    revealTile(x, y - 1, revealed)
+    revealTile(x + 1, y - 1, revealed)
+    revealTile(x + 1, y, revealed)
+    revealTile(x + 1, y + 1, revealed)
   }
-  clearTile(5+x, 1+y)
+  clearTile(5 + x, 1 + y)
+  currentBoard[x][y] = 1
   if ((y + (x % 2)) % 2 == 0) {
-    addSprite(5+x,1+y,aIcons[generatedLevel[x][y]+1])
-    addSprite(5+x,1+y,minesweeperBlankRingA)
+    addSprite(5 + x, 1 + y, aIcons[generatedLevel[x][y] + 1])
+    addSprite(5 + x, 1 + y, minesweeperBlankRingA)
   } else {
-    addSprite(5+x,1+y,bIcons[generatedLevel[x][y]+1])
-    addSprite(5+x,1+y,minesweeperBlankRingB)
+    addSprite(5 + x, 1 + y, bIcons[generatedLevel[x][y] + 1])
+    addSprite(5 + x, 1 + y, minesweeperBlankRingB)
   }
 
 }
@@ -1155,13 +1347,47 @@ onInput("i", () => {
 })
 onInput("j", () => {
   if (currentLevel != 1) return;
+  if (currentBoard[selectedPosition.x][selectedPosition.y] == 1) return;
   if (!generatedLevel) {
     generatedLevel = generateLevel(selectedPosition.x, selectedPosition.y)
+    count = 0
+    timerTimeouts.push(
+      setInterval(function() {
+        if (count > 998) return
+        count++
+        var output = String(count).padStart(3, '0')
+        for (var i = 0; i < 3; i++) {
+          clearTile(i + 1, 0)
+          addSprite(i + 1, 0, timeIcons[output[i]])
+        }
+      }, 1000)
+    )
   }
-  revealTile(selectedPosition.x,selectedPosition.y)
+  playTune(reveal)
+  revealTile(selectedPosition.x, selectedPosition.y)
 })
 onInput("l", () => {
   if (currentLevel != 1) return;
   playTune(confirm)
+  generatedLevel = undefined
+  currentBoard = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  ]
+  timerTimeouts.forEach((timeout) => {
+    clearInterval(timeout)
+  })
   initializeLevel(0)
 })
