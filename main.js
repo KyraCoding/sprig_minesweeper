@@ -41,11 +41,15 @@ const minesweeper5B = "%"
 const minesweeper6B = "^"
 const minesweeper7B = "&"
 const minesweeper8B = "("
+const timeIcon = "<"
 const bombIconA = "["
 const bombIconB = "]"
 const flagIconA = "f"
 const flagIconB = "F"
+const flagIconC = ">"
+const bombIconC = "?"
 const minesweeperWhiteBoard = "G"
+const minesweeperGrayBoard = "y"
 
 const menuSong = tune`
 500: C4~500 + C5^500 + G5/500,
@@ -797,7 +801,75 @@ DDDDDDDDDDDDDDDD`],
 ..L0000000000L..
 ..LLL000000LLL..
 ................
-................`]
+................`],
+  [flagIconC, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLL3LLLLL
+LLLLLLLL333LLLLL
+LLL33333333LLLLL
+LLLL3333333LLLLL
+LLLLL333333LLLLL
+LLLLLL33333LLLLL
+LLLLLLLL333LLLLL
+LLLLLLLLL33LLLLL
+LLLLLLLLLL0LLLLL
+LLLLLLLLLL0LLLLL
+LLLLLL000000LLLL
+LLLLL00000000LLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [timeIcon, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLL66666LLLLL
+LLLLLLL666LLLLLL
+LLLLL6666666LLLL
+LLLL666606666LLL
+LLL66666066666LL
+LL6666660666666L
+LL6666660666666L
+LL6666660666666L
+LL6666660666666L
+LL6666606666666L
+LL6666066666666L
+LL6660666666666L
+LLL66666666666LL
+LLLL666666666LLL
+LLLLL6666666LLLL`],
+  [bombIconC, bitmap`
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL
+LLLLL000000LLLLL
+LLL0000000000LLL
+LLL0000000000LLL
+LL000300003000LL
+LL000030030000LL
+LL000003300000LL
+LL000003300000LL
+LL000030030000LL
+LL000300003000LL
+LLL0000000000LLL
+LLL0000000000LLL
+LLLLL000000LLLLL
+LLLLLLLLLLLLLLLL
+LLLLLLLLLLLLLLLL`],
+  [minesweeperGrayBoard, bitmap`
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111
+1111111111111111`]
 )
 
 const levels = [
@@ -807,22 +879,22 @@ const levels = [
 .lcr.
 .lcr.`,
   map`
-gggGGGGGGGGGGGGGGGGG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggG..............GG
-gggGGGGGGGGGGGGGGGGG`
+<gggGGGGGGGGGGGGGGGG
+>gggG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyG..............G
+yyyyGGGGGGGGGGGGGGGG`
 ]
 
 var currentSong;
@@ -839,7 +911,7 @@ function calcDistance(x1, y1, x2, y2) {
 function generateLevel(x, y) {
   // CONFIG
   // Number of mines
-  const totalMines = 24
+  const totalMines = 42
   // Do not spawn mines within this radius of x and y
   const radius = 2
 
@@ -927,15 +999,15 @@ function initializeLevel(level) {
     for (let x = 0; x < 14; x++) {
       for (let y = 0; y < 14; y++) {
         if ((y + (x % 2)) % 2 == 0) {
-          addSprite(4 + x, 1 + y, minesweeperTileA)
-          addSprite(4 + x, 1 + y, minesweeperTileRingA)
+          addSprite(5 + x, 1 + y, minesweeperTileA)
+          addSprite(5 + x, 1 + y, minesweeperTileRingA)
         } else {
-          addSprite(4 + x, 1 + y, minesweeperTileRingB)
-          addSprite(4 + x, 1 + y, minesweeperTileB)
+          addSprite(5 + x, 1 + y, minesweeperTileRingB)
+          addSprite(5 + x, 1 + y, minesweeperTileB)
         }
       }
     }
-    addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+    addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
   }
 }
 initializeLevel(0)
@@ -988,7 +1060,7 @@ onInput("w", () => {
         getAll(minesweeperSelectA).forEach((selector) =>
           selector.remove()
         )
-        addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+        addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
       }
       playTune(movement)
     })
@@ -999,7 +1071,7 @@ onInput("w", () => {
         getAll(minesweeperSelectA).forEach((selector) =>
           selector.remove()
         )
-        addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+        addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
       }
       playTune(movement)
     })
@@ -1010,7 +1082,7 @@ onInput("w", () => {
         getAll(minesweeperSelectA).forEach((selector) =>
           selector.remove()
         )
-        addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+        addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
       }
       playTune(movement)
     })
@@ -1021,7 +1093,7 @@ onInput("w", () => {
         getAll(minesweeperSelectA).forEach((selector) =>
           selector.remove()
         )
-        addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+        addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
       }
       playTune(movement)
     })
@@ -1029,30 +1101,30 @@ onInput("w", () => {
       if (currentLevel != 1) return;
       if (currentBoard[selectedPosition.x][selectedPosition.y] == 0) {
         playTune(placeFlag)
-        clearTile(4 + selectedPosition.x, 1 + selectedPosition.y)
+        clearTile(5 + selectedPosition.x, 1 + selectedPosition.y)
         currentBoard[selectedPosition.x][selectedPosition.y] = -1
         if ((selectedPosition.y + (selectedPosition.x % 2)) % 2 == 0) {
-          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingA)
-          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, flagIconA)
+          addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingA)
+          addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, flagIconA)
 
         } else {
-          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingB)
-          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, flagIconB)
+          addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingB)
+          addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, flagIconB)
         }
-        addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+        addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
       } else if (currentBoard[selectedPosition.x][selectedPosition.y] == -1) {
         playTune(removeFlag)
-        clearTile(4 + selectedPosition.x, 1 + selectedPosition.y)
+        clearTile(5 + selectedPosition.x, 1 + selectedPosition.y)
         currentBoard[selectedPosition.x][selectedPosition.y] = 0
         if ((selectedPosition.y + (selectedPosition.x % 2)) % 2 == 0) {
-          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingA)
-          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileA)
+          addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingA)
+          addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileA)
 
         } else {
-          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingB)
-          addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileB)
+          addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileRingB)
+          addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperTileB)
         }
-        addSprite(4 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
+        addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
       }
     })
     onInput("j", () => {
@@ -1062,53 +1134,53 @@ onInput("w", () => {
         for (let x = 0; x < 14; x++) {
           for (let y = 0; y < 14; y++) {
             if ((y + (x % 2)) % 2 == 0) {
-              clearTile(4+x,1+y)
+              clearTile(5+x,1+y)
               if (generatedLevel[x][y] == -1) {
-                addSprite(4 + x, 1 + y, bombIconA)
+                addSprite(5 + x, 1 + y, bombIconA)
               } else if (generatedLevel[x][y] == 0) {
-                addSprite(4 + x, 1 + y, minesweeper0A)
+                addSprite(5 + x, 1 + y, minesweeper0A)
               } else if (generatedLevel[x][y] == 1) {
-                addSprite(4 + x, 1 + y, minesweeper1A)
+                addSprite(5 + x, 1 + y, minesweeper1A)
               } else if (generatedLevel[x][y] == 2) {
-                addSprite(4 + x, 1 + y, minesweeper2A)
+                addSprite(5 + x, 1 + y, minesweeper2A)
               } else if (generatedLevel[x][y] == 3) {
-                addSprite(4 + x, 1 + y, minesweeper3A)
+                addSprite(5 + x, 1 + y, minesweeper3A)
               } else if (generatedLevel[x][y] == 4) {
-                addSprite(4 + x, 1 + y, minesweeper4A)
+                addSprite(5 + x, 1 + y, minesweeper4A)
               } else if (generatedLevel[x][y] == 5) {
-                addSprite(4 + x, 1 + y, minesweeper5A)
+                addSprite(5 + x, 1 + y, minesweeper5A)
               } else if (generatedLevel[x][y] == 6) {
-                addSprite(4 + x, 1 + y, minesweeper6A)
+                addSprite(5 + x, 1 + y, minesweeper6A)
               } else if (generatedLevel[x][y] == 7) {
-                addSprite(4 + x, 1 + y, minesweeper7A)
+                addSprite(5 + x, 1 + y, minesweeper7A)
               } else if (generatedLevel[x][y] == 8) {
-                addSprite(4 + x, 1 + y, minesweeper8A)
+                addSprite(5 + x, 1 + y, minesweeper8A)
               }
-              addSprite(4 + x, 1 + y, minesweeperBlankRingA)
+              addSprite(5 + x, 1 + y, minesweeperBlankRingA)
             } else {
-              clearTile(4+x,1+y)
+              clearTile(5+x,1+y)
               if (generatedLevel[x][y] == -1) {
-                addSprite(4 + x, 1 + y, bombIconB)
+                addSprite(5 + x, 1 + y, bombIconB)
               } else if (generatedLevel[x][y] == 0) {
-                addSprite(4 + x, 1 + y, minesweeper0B)
+                addSprite(5 + x, 1 + y, minesweeper0B)
               } else if (generatedLevel[x][y] == 1) {
-                addSprite(4 + x, 1 + y, minesweeper1B)
+                addSprite(5 + x, 1 + y, minesweeper1B)
               } else if (generatedLevel[x][y] == 2) {
-                addSprite(4 + x, 1 + y, minesweeper2B)
+                addSprite(5 + x, 1 + y, minesweeper2B)
               } else if (generatedLevel[x][y] == 3) {
-                addSprite(4 + x, 1 + y, minesweeper3B)
+                addSprite(5 + x, 1 + y, minesweeper3B)
               } else if (generatedLevel[x][y] == 4) {
-                addSprite(4 + x, 1 + y, minesweeper4B)
+                addSprite(5 + x, 1 + y, minesweeper4B)
               } else if (generatedLevel[x][y] == 5) {
-                addSprite(4 + x, 1 + y, minesweeper5B)
+                addSprite(5 + x, 1 + y, minesweeper5B)
               } else if (generatedLevel[x][y] == 6) {
-                addSprite(4 + x, 1 + y, minesweeper6B)
+                addSprite(5 + x, 1 + y, minesweeper6B)
               } else if (generatedLevel[x][y] == 7) {
-                addSprite(4 + x, 1 + y, minesweeper7B)
+                addSprite(5 + x, 1 + y, minesweeper7B)
               } else if (generatedLevel[x][y] == 8) {
-                addSprite(4 + x, 1 + y, minesweeper8B)
+                addSprite(5 + x, 1 + y, minesweeper8B)
               }
-              addSprite(4 + x, 1 + y, minesweeperBlankRingB)
+              addSprite(5 + x, 1 + y, minesweeperBlankRingB)
             }
           }
         }
