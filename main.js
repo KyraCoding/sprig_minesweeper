@@ -10,7 +10,7 @@ https://sprig.hackclub.com/gallery/getting_started
 
 // CONFIG
 // Number of mines
-const totalMines = 15
+const totalMines = 2
 // Do not spawn mines within this radius of x and y
 const radius = 3
 
@@ -155,9 +155,9 @@ const reveal = tune`
 125: G5/125,
 3750`
 const fail = tune`
-125: C4/125,
+125: G5/125,
 125: G4/125,
-125: C5/125,
+125: C4/125,
 3625`
 const win = tune`
 125: C4/125,
@@ -1104,6 +1104,15 @@ yyyyGGGGGGGGGGGGGGGG`,
 ...gggg...
 ..g....g..
 ..g....g..
+..........`,
+  map`
+..........
+...g..g...
+...g..g...
+..........
+..g....g..
+..g....g..
+...gggg...
 ..........`
 ]
 
@@ -1114,6 +1123,7 @@ var generatedLevel;
 var selected = null
 var timerTimeouts = []
 var minesRemaining = totalMines
+var correctFlags = 0
 
 const aIcons = [bombIconA, minesweeper0A, minesweeper1A, minesweeper2A, minesweeper3A, minesweeper4A, minesweeper5A, minesweeper6A, minesweeper7A, minesweeper8A]
 const bIcons = [bombIconB, minesweeper0B, minesweeper1B, minesweeper2B, minesweeper3B, minesweeper4B, minesweeper5B, minesweeper6B, minesweeper7B, minesweeper8B]
@@ -1124,8 +1134,10 @@ function calcDistance(x1, y1, x2, y2) {
 }
 
 function reset() {
+  selectedPosition = { x: 7, y: 7 }
   generatedLevel = undefined
   minesRemaining = totalMines
+  correctFlags = 0
   currentBoard = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -1254,6 +1266,10 @@ function initializeLevel(level) {
     setMap(levels[2])
     return
   }
+  if (level == 3) {
+    setMap(levels[3])
+    return
+  }
 }
 
 function revealTile(x, y, revealed = new Set()) {
@@ -1375,6 +1391,9 @@ onInput("i", () => {
 
   // Place Flag
   if (currentBoard[selectedPosition.x][selectedPosition.y] == 0) {
+    if (!!generatedLevel && generatedLevel[selectedPosition.x][selectedPosition.y] == -1) {
+      correctFlags++
+    }
     minesRemaining--
     playTune(placeFlag)
     clearTile(5 + selectedPosition.x, 1 + selectedPosition.y)
@@ -1388,9 +1407,16 @@ onInput("i", () => {
       addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, flagIconB)
     }
     addSprite(5 + selectedPosition.x, 1 + selectedPosition.y, minesweeperSelectA)
-
+    if (correctFlags == totalMines) {
+      playTune(win)
+      initializeLevel(3)
+      return
+    }
     // Remove Flag
   } else if (currentBoard[selectedPosition.x][selectedPosition.y] == -1) {
+    if (!!generatedLevel && generatedLevel[selectedPosition.x][selectedPosition.y] == -1) {
+      correctFlags--
+    }
     minesRemaining++
     playTune(removeFlag)
     clearTile(5 + selectedPosition.x, 1 + selectedPosition.y)
@@ -1412,7 +1438,7 @@ onInput("i", () => {
 })
 onInput("j", () => {
   if (currentLevel != 1) return;
-  if (currentBoard[selectedPosition.x][selectedPosition.y] == 1) return;
+  if (currentBoard[selectedPosition.x][selectedPosition.y] != 0) return;
   if (!generatedLevel) {
     generatedLevel = generateLevel(selectedPosition.x, selectedPosition.y)
     count = 0
